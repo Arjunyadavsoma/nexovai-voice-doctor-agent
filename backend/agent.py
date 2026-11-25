@@ -35,7 +35,7 @@ from pipecat.processors.aggregators.llm_response_universal import (
 )
 from pipecat.processors.frame_processor import FrameDirection, FrameProcessor
 from pipecat.services.elevenlabs.stt import ElevenLabsSTTService
-from pipecat.services.elevenlabs.tts import ElevenLabsTTSService
+from pipecat.services.elevenlabs.tts import ElevenLabsHttpTTSService
 from pipecat.services.google.llm import GoogleLLMService
 from pipecat.transports.base_transport import TransportParams
 from pipecat.transports.smallwebrtc.connection import SmallWebRTCConnection
@@ -73,7 +73,7 @@ async def run_pipeline(connection: SmallWebRTCConnection) -> None:
         params=TransportParams(audio_in_enabled=True, audio_out_enabled=True),
     )
 
-    session = aiohttp.ClientSession()
+    session = aiohttp.ClientSession(trust_env=True)  # honour env egress proxy
     try:
         stt = ElevenLabsSTTService(
             api_key=config.ELEVENLABS_API_KEY,
@@ -88,9 +88,13 @@ async def run_pipeline(connection: SmallWebRTCConnection) -> None:
                 temperature=0.7,
             ),
         )
-        tts = ElevenLabsTTSService(
+        # HTTP TTS (not the WebSocket one): the sandbox egress proxy breaks
+        # the WS multi-stream endpoint (connects, returns no audio). The
+        # REST streaming API works. Pass the proxy-aware session.
+        tts = ElevenLabsHttpTTSService(
             api_key=config.ELEVENLABS_API_KEY,
-            settings=ElevenLabsTTSService.Settings(
+            aiohttp_session=session,
+            settings=ElevenLabsHttpTTSService.Settings(
                 voice=config.ELEVENLABS_VOICE_ID,
                 model=config.ELEVENLABS_TTS_MODEL,
             ),

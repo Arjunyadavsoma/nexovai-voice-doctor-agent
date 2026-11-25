@@ -26,7 +26,7 @@ call, with a live dashboard. Built for CityCare Clinic, Hyderabad (mock data).
 |---|---|
 | Voice pipeline | Pipecat 1.17 (Python) |
 | STT | ElevenLabs (`scribe_v2`) |
-| TTS | ElevenLabs (`eleven_turbo_v2_5`, voice Rachel) |
+| TTS | ElevenLabs (`eleven_turbo_v2_5`, voice Sarah — a premade voice that works on the free tier; Rachel is a Voice Library voice and is blocked for free accounts) |
 | LLM | Google Gemini `gemini-2.5-flash` (free tier) |
 | VAD | Silero VAD, in the Pipecat pipeline |
 | Transport | SmallWebRTC — browser WebRTC straight to this server, no Daily/telephone account |

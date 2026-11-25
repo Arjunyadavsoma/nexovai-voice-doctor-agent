@@ -14,9 +14,12 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "") or os.getenv("GOOGLE_API_KEY", 
 # Gemini model (free tier). gemini-2.5-flash is the current free-tier default.
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
 
-# ElevenLabs voice + models. Rachel (21m00Tcm4TlvDq8ikWAM) is ElevenLabs'
-# stock calm female voice; override with any voice id from your account.
-ELEVENLABS_VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID", "21m00Tcm4TlvDq8ikWAM")
+# ElevenLabs voice + models. Sarah (EXAVITQu4vr4xnSDxMaL) is a premade
+# voice that works on the free tier. Rachel (21m00Tcm4TlvDq8ikWAM) is a
+# Voice Library voice — ElevenLabs blocks library voices for free accounts
+# ("Free users cannot use library voices via the API"), so TTS returns no
+# audio with it. Override with any voice id from your account.
+ELEVENLABS_VOICE_ID = os.getenv("ELEVENLABS_VOICE_ID", "EXAVITQu4vr4xnSDxMaL")
 ELEVENLABS_TTS_MODEL = os.getenv("ELEVENLABS_TTS_MODEL", "eleven_turbo_v2_5")
 ELEVENLABS_STT_MODEL = os.getenv("ELEVENLABS_STT_MODEL", "scribe_v2")
 
