@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CityCare Clinic — Voice Booking</title>
+<link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="mark">C</span>
+    <div>
+      <h1>CityCare Clinic</h1>
+      <p>Hyderabad &middot; Voice appointment booking</p>
+    </div>
+  </div>
+  <div class="top-actions">
+    <span id="agent-status" class="pill">Checking agent&hellip;</span>
+    <button id="try-call" class="btn-primary">Try Call</button>
+  </div>
+</header>
+
+<main>
+  <section class="stats" aria-label="Today at a glance">
+    <div class="stat"><span class="num" id="stat-doctors">&ndash;</span><span class="lbl">Doctors on duty</span></div>
+    <div class="stat"><span class="num" id="stat-slots">&ndash;</span><span class="lbl">Open slots</span></div>
+    <div class="stat"><span class="num" id="stat-bookings">&ndash;</span><span class="lbl">Bookings</span></div>
+    <div class="stat note"><span class="lbl">How it works</span><span class="note-text">Call Maya, give your phone number, pick a doctor and a time. She reads the number back before booking.</span></div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2>Doctors</h2>
+      <p>Today&rsquo;s open times. Booking happens on the call.</p>
+    </div>
+    <div id="doctors" class="doctor-grid"></div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2>Appointments</h2>
+      <p>Updates live when a call books or cancels.</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Booking</th><th>Doctor</th><th>Date</th><th>Time</th><th>Phone</th><th>Status</th><th></th></tr></thead>
+        <tbody id="appointments"></tbody>
+      </table>
+      <p id="no-appointments" class="empty" hidden>No bookings yet.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>Voice: Pipecat &middot; ElevenLabs speech &middot; Gemini &middot; Silero VAD. Text demo works without keys; a voice call needs ElevenLabs + Gemini keys in <code>.env</code>.</p>
+</footer>
+
+<!-- Phone call screen -->
+<div id="phone-overlay" class="overlay" hidden>
+  <div class="phone" role="dialog" aria-label="Voice call">
+    <div class="phone-top">
+      <div class="caller">
+        <span class="avatar">M</span>
+        <div>
+          <strong>Maya &middot; CityCare</strong>
+          <span id="call-state">Ringing&hellip;</span>
+        </div>
+      </div>
+      <span id="call-timer" class="timer">00:00</span>
+    </div>
+
+    <canvas id="waveform" width="320" height="56" aria-hidden="true"></canvas>
+
+    <div id="booking-card" class="booking-card" hidden>
+      <span class="booking-card-label">Booked</span>
+      <strong id="booking-card-doctor"></strong>
+      <span id="booking-card-when"></span>
+      <span id="booking-card-id" class="booking-id"></span>
+    </div>
+
+    <div id="transcript" class="transcript" aria-live="polite"></div>
+
+    <form id="demo-form" class="demo-form">
+      <input id="demo-input" type="text" placeholder="Type to Maya (demo text)" autocomplete="off">
+      <button type="submit">Send</button>
+    </form>
+
+    <div class="call-controls">
+      <button id="mute-btn" class="control" type="button" aria-pressed="false">Mute</button>
+      <button id="end-call" class="control end" type="button">End call</button>
+    </div>
+  </div>
+</div>
+
+<audio id="remote-audio" autoplay playsinline></audio>
+<script src="/static/app.js"></script>
+</body>
+</html>
